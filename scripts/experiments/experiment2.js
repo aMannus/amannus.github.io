@@ -141,7 +141,7 @@ var audioPlayer = {
         getSound = new XMLHttpRequest();
         playSound = ctx.createBufferSource();
 
-        getSound.open("GET", "/one/images/experiments/audio.mp3", true);
+        getSound.open("GET", "/images/experiments/audio.mp3", true);
         getSound.responseType = "arraybuffer";
         getSound.onload = function () {
             ctx.decodeAudioData(getSound.response, function (buffer) {
