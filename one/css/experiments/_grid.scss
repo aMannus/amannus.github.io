@@ -1,0 +1,157 @@
+/* Grid system 
+========================== */
+
+$containerWidth: 1200px;
+$totalCols: 12;
+$colWidth: percentage( 100px / $containerWidth );
+$gutterWidth: 15px;
+$gutterWidthSmall: 8px;
+
+@function column($columnSize) {
+	@return ($colWidth * $columnSize);
+}
+
+.container {
+    position: relative;
+    padding-left: $gutterWidthSmall * 2;
+    padding-right: $gutterWidthSmall * 2;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: $containerWidth;
+
+    @include min-screen($mobileBreakpoint) {
+        padding-left: $gutterWidth * 2;
+        padding-right: $gutterWidth * 2;
+    }
+
+    &.fullWidth {
+        max-width: 100%;
+    }
+
+    &.noGutterInside {
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .column {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    &.noGutterOutside {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    &.noGutterAll {
+        padding-left: 0;
+        padding-right: 0;
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .column {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+.row {
+    margin-left: -$gutterWidthSmall;
+    margin-right: -$gutterWidthSmall;
+
+	&::after {
+		content: '';
+        clear: both;
+		display: table;
+	}
+
+    @include min-screen($mobileBreakpoint) {
+        margin-left: -$gutterWidth;
+        margin-right: -$gutterWidth;
+    }
+}
+
+.column {
+	padding-left: $gutterWidthSmall;
+    padding-right: $gutterWidthSmall;
+    display: inline-block;
+    margin-right: -4px;
+    vertical-align: top;
+
+    @include min-screen($mobileBreakpoint) {
+        padding-left: $gutterWidth;
+        padding-right: $gutterWidth;
+    }
+}
+
+@for $i from 1 through $totalCols {
+	.col-md-#{$i}, .col-ta-#{$i}, .col-de-#{$i}, .col-la-#{$i} {
+		width: column($i);
+	}
+}
+
+/* Umbraco grid-specific class (col-md-*) */
+.col-md-hide {
+    display: none;
+}
+
+@include max-screen($tabletBreakpoint) {
+    @for $i from 1 through $totalCols {
+        .col-md-#{$i} {
+		    width: 100%;
+            display: inline-block;
+	    }
+    }
+}
+/* End Umbraco grid-specific class */
+
+@for $i from 1 through $totalCols {
+    .col-mo-#{$i} {
+		width: column($i);
+        display: inline-block;
+	}
+    .col-mo-hide {
+        display: none;
+    }
+}
+
+@include min-screen($mobileBreakpoint) {
+    @for $i from 1 through $totalCols {
+        .col-ta-#{$i} {
+		    width: column($i);
+            display: inline-block;
+	    }
+    }
+    .col-ta-hide {
+        display: none;
+    }
+}
+
+@include min-screen($tabletBreakpoint) {   
+    @for $i from 1 through $totalCols {
+        .col-de-#{$i} {
+		    width: column($i);
+            display: inline-block;
+	    }
+    }
+    .col-de-hide {
+        display: none;
+    }
+}
+
+@include min-screen($desktopBreakpoint) { 
+    @for $i from 1 through $totalCols {
+        .col-la-#{$i} {
+		    width: column($i);
+            display: inline-block;
+	    }
+    }
+    .col-la-hide {
+        display: none;
+    }
+}

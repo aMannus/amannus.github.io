@@ -1,0 +1,481 @@
+@mixin max-screen($res) {
+  @media screen and (max-width: $res - 1px) {
+    @content;
+  }
+}
+
+@mixin min-screen($res) {
+  @media screen and (min-width: $res) {
+    @content;
+  }
+}
+
+@mixin max-screen-height($res) {
+  @media screen and (max-height: $res - 1px) {
+    @content;
+  }
+}
+
+@mixin min-screen-height($res) {
+  @media screen and (min-height: $res) {
+    @content;
+  }
+}
+
+/* Transition Mixin */
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+     -moz-transition: $transition;
+      -ms-transition: $transition;
+       -o-transition: $transition;
+          transition: $transition;
+}
+
+@mixin transition-delay($transition) {
+	-webkit-transition-delay: $transition;
+	   -moz-transition-delay: $transition;
+		-ms-transition-delay: $transition;
+		 -o-transition-delay: $transition;
+			transition-delay: $transition;
+}
+
+/* Border-Radius Mixin */
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+	   -o-border-radius: $radius;
+          border-radius: $radius;
+}
+
+/* Box-Shadow Mixin */
+@mixin box-shadow($shadow) {
+    -webkit-box-shadow: $shadow;
+       -moz-box-shadow: $shadow;
+			box-shadow: $shadow;
+}
+
+/* Text-Shadow Mixin */
+@mixin text-shadow($textShadow) {
+    text-shadow: $textShadow;
+}
+
+/* Opacity Mixin */
+@mixin opacity($opacity) {
+	opacity: $opacity;
+	$opacity-ie: $opacity * 100;
+	filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+/* Gradient Top Bottom Mixin */
+@mixin gradientTopBottom($from, $to) {
+	background-color: $from;
+	background-image: -moz-linear-gradient($from, $to);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+	background-image: -webkit-linear-gradient($from, $to);
+	background-image: -o-linear-gradient($from, $to);
+	background-image:	-ms-linear-gradient($from, $to);
+}
+
+/* Gradient Left Right Mixin */
+@mixin gradientLeftRight($from, $to) {
+	background-color: $from;
+	background-image: -moz-linear-gradient(left, $from 0%, $to 100%);
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, $from), color-stop(100%, $to));
+	background-image: -webkit-linear-gradient(left, $from 0%, $to 100%);
+	background-image: -o-linear-gradient(left, $from 0%, $to 100%);
+	background: -ms-linear-gradient(left, $from 0%, $to 100%);
+	background: linear-gradient(to right, $from 0%, $to 100%);
+}
+
+@mixin gradientRadial($from, $to) {
+	background: -moz-radial-gradient(center, ellipse cover, $from 0%, $to 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, $from), color-stop(100%, $to));
+	background: -webkit-radial-gradient(center, ellipse cover, $from 0%, $to 100%);
+	background: -o-radial-gradient(center, ellipse cover, $from 0%, $to 100%);
+	background: -ms-radial-gradient(center, ellipse cover, $from 0%, $to 100%);
+	background: radial-gradient(center, ellipse cover, $from 0%, $to 100%);
+	background-color: $from;
+}
+
+@mixin gradientRadialBottom($from, $to) {
+	background: -moz-radial-gradient(bottom, ellipse cover, $from 10%, $to 60%);
+	background: -webkit-gradient(radial, bottom center, 10%, center center, 60%, color-stop(0%, $from), color-stop(100%, $to));
+	background: -webkit-radial-gradient(bottom, ellipse cover, $from 10%, $to 60%);
+	background: -o-radial-gradient(bottom, ellipse cover, $from 10%, $to 60%);
+	background: -ms-radial-gradient(bottom, ellipse cover, $from 10%, $to 60%);
+	background: radial-gradient(bottom, ellipse cover, $from 10%, $to 60%);
+	background-color: $from;
+			
+	@include max-screen($tabletPortrait) {
+		background: -moz-radial-gradient(bottom, ellipse cover, $from 30%, $to 60%);
+		background: -webkit-gradient(radial, bottom center, 30%, center center, 60%, color-stop(0%, $from), color-stop(100%, $to));
+		background: -webkit-radial-gradient(bottom, ellipse cover, $from 30%, $to 60%);
+		background: -o-radial-gradient(bottom, ellipse cover, $from 30%, $to 60%);
+		background: -ms-radial-gradient(bottom, ellipse cover, $from 30%, $to 60%);
+		background: radial-gradient(bottom, ellipse cover, $from 30%, $to 60%);
+		background-color: $from;
+	}
+}
+
+/* Transform Mixin */
+@mixin transform($transforms...) {
+	   -moz-transform: $transforms;
+	     -o-transform: $transforms;
+	    -ms-transform: $transforms;
+	-webkit-transform: $transforms;
+            transform: $transforms;
+}
+
+/* Rotate Mixin */
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+ 
+/* Scale Mixin */
+@mixin scale($scale) {
+	 @include transform(scale($scale));
+} 
+
+/* Translate Mixin */
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+
+/* TranslateY Mixin */
+@mixin translateY ($y) {
+   @include transform(translateY($y));
+}
+
+/* TranslateX Mixin */
+@mixin translateX ($x) {
+   @include transform(translateX($x));
+}
+
+/* Transform Origin Mixin */
+@mixin transform-origin ($origin) {
+		moz-transform-origin: $origin;
+	     -o-transform-origin: $origin;
+	    -ms-transform-origin: $origin;
+	-webkit-transform-origin: $origin;
+            transform-origin: $origin;
+}
+
+/* Animate Mixin */
+@mixin keyframes($animation-name) {
+	@-webkit-keyframes #{$animation-name} {
+		@content;
+	}
+	@-moz-keyframes #{$animation-name} {
+		@content;
+	}  
+	@-ms-keyframes #{$animation-name} {
+		@content;
+	}
+	@-o-keyframes #{$animation-name} {
+		@content;
+	}  
+	@keyframes #{$animation-name} {
+		@content;
+	}
+}
+
+@mixin animation($str) {
+	-webkit-animation: #{$str};
+    -moz-animation: #{$str};
+	-ms-animation: #{$str};
+	-o-animation: #{$str};
+	animation: #{$str};      
+}
+
+/* Placeholder Mixin (Placeholder styling doesnt work in every browser) */
+@mixin placeholder {
+	::-webkit-input-placeholder {@content}
+	:-moz-placeholder           {@content}
+	::-moz-placeholder          {@content}
+	:-ms-input-placeholder      {@content}  
+}
+
+/* Flexbox Mixin */
+@mixin flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+/* Flexbox Mixin */
+@mixin fleximp {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+/* Appearance Mixin */
+@mixin appearance($val) {
+	-webkit-appearance: $val;
+	-moz-appearance: $val;
+	appearance: $val;
+}
+
+input::-moz-focus-inner { 
+	border: 0; 
+}
+
+object, embed, a, a:hover, a:active, a:focus { 
+	outline: 0;
+}
+
+@function em($pixels, $context: $bodyFontSize) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return $pixels / $context * 1em;
+}
+
+/* Reset styles */
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	border: 0;
+	background: transparent;
+	vertical-align: baseline;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+nav ul {
+	list-style: none;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+
+a {
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	vertical-align: baseline;
+	font-size: 100%;
+}
+
+ins {
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
+}
+
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-weight: bold;
+	font-style: italic;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+abbr[title],
+dfn[title] {
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+hr {
+	display: block;
+	margin: 1em 0;
+	padding: 0;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #cccccc;
+}
+
+input,
+select {
+	vertical-align: middle;
+}
+
+html {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*:before,
+*:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.browserUpgrade {
+	background: #ff6a00;
+    font-size: 1.2em;
+	border-bottom: 1px solid #000000;
+	color: #fff;
+	position: fixed;
+    z-index: 99999999;
+	text-align: center;
+	top:0;right:0;left:0;
+	width: 100%;
+    padding: 50px 20px;
+
+    p {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+	.upgradeButton {
+		color: #ff6a00;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 10px 20px;
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 700;
+        margin-top: 20px;
+        
+        &:hover {
+            text-decoration: underline;
+        }
+	}
+
+	a:hover {
+		text-decoration: none;
+	}
+}
+
+img {
+	max-width: 100%;
+}
+
+.clear {	
+	&:before,
+	&:after {
+		content: '';
+		display: table;
+	}
+	
+	&:after {
+		clear: both;
+	}
+}
+
+.video {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+			
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}

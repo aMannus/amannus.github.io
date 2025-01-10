@@ -1,0 +1,851 @@
+@import '_variables.scss';
+@import '_tools.scss';
+@import '_grid.scss';
+ 
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+    font-family: $mainFont;
+    font-size: 16px;
+}
+
+html {
+    width: 100%;
+	height: 100%;
+}
+
+canvas {
+	width: 100%;
+	height: 100%; 
+}
+
+a {
+    text-decoration: none;
+    color: initial;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+a[href^="tel"] {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    position: absolute;
+    top:0;right:0;bottom:0;left:0;
+    width: 90%;
+    width: calc(100% - 30px);
+    max-width: none;
+    height: 90%;
+    height: calc(100% - 30px);
+    margin: auto;
+    padding: 0 8px;
+
+    @include min-screen($tabletBreakpoint) {
+        width: calc(100% - 60px);
+        height: calc(100% - 60px);
+        padding: 0 15px;
+    }
+
+    @include min-screen($desktopBreakpoint) {
+        width: calc(100% - 120px);
+        height: calc(100% - 120px);
+    }
+
+    @include min-screen($largeBreakpoint) {
+        width: calc(100% - 240px);
+        height: calc(100% - 240px);
+    }
+}
+
+@include keyframes(removeLoad) {
+	0% {
+        @include transform(translateY(0));
+	}
+	100% {
+        @include transform(translateY(-100%))
+	}
+}
+
+@include keyframes(enterScreen) {
+    0% {
+        @include transform(translateY(100%));
+	}
+	100% {
+        @include transform(translateY(0))
+	}
+}
+
+@include keyframes(wipeIn) {
+	0% {
+        width: 0%;
+	}
+	100% {
+        width: 100%;
+	}
+}
+
+body.loaded {
+    .loading {
+        animation: removeLoad 1000ms forwards;
+    }
+}
+
+.loading {
+	background-color: #fff;
+	position: absolute;
+	top:0;right:0;bottom:0;left:0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	background-color: #fff;
+    z-index: 999;
+
+    .container {
+        &.desktop {
+
+        }
+
+        &.mobile {
+            display: none;
+        }
+
+        @include max-screen(568px) {
+            &.desktop {
+                display: none;
+            }
+
+            &.mobile {
+                display: block;
+
+                .layer {
+                    .clip {
+                        .text {
+                            height: 85vw;
+
+                            span {
+                                &:after {
+                                    height: 36%;
+                                }
+
+                                &.bigText {
+                                    font-size: 17vw;
+                                    line-height: 11vw;
+                                    margin-bottom: 6vw;
+                                }
+
+                                &.smallText {
+                                    font-size: 8vw;
+                                    line-height: 5.3vw;
+                                    margin-top: 3.5vw;
+
+                                    &:after {
+                                        height: 87%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .layer {
+        .clip {
+            position: absolute;
+	        top:0;left:0;
+	        width: 0;
+	        height: 100%;
+	        overflow: hidden;
+	        animation: wipeIn 1000ms forwards;
+	        animation-delay: 1000ms;
+
+            .text {
+	            position: absolute;
+	            top:0;right:0;bottom:0;left:0;
+                height: 27vw;
+                margin: auto 0;
+	            color: $blue;
+                font-weight: 900;
+                letter-spacing: -0.35vw;
+
+                span {
+                    display: inline-block;
+	                position: relative;
+	                white-space: nowrap;
+
+                    &.smallText {
+                        font-size: 3.3vw;
+                        line-height: 2.2vw;
+                        letter-spacing: 0;
+                        margin-top: 1.5vw;
+                    }
+
+                    &.bigText {
+                        font-size: 12vw;
+	                    line-height: 7.7vw;
+                        letter-spacing: -0.1vw;
+                        margin-bottom: 2.8vw;
+                    }
+                }
+            }
+        }
+
+        &.first {
+            .clip {
+                .text {
+                    color: #fff;
+                    
+                    span {
+                        &:after {
+                            content: "";
+	                        position: absolute;
+	                        left: 0;
+	                        bottom: 0;
+	                        width: 100%;
+	                        height: 25%;
+	                        background-color: $blue;
+                        }
+
+                        &.smallText {
+                            &:after {
+                                height: 70%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &.second {
+            .clip {
+                animation-delay: 2500ms;
+            }
+        }
+
+        &.third {
+            .clip {
+                transition: width 1000ms;
+                animation: none;
+
+                .text {
+                    color: #000;
+                }
+            }
+        }
+    }
+
+    .loadingStatus {
+        position: absolute;
+        right:0;left:0;bottom:30px;
+        text-align: center;
+
+        span {
+            font-weight: 900;
+        }
+    }
+}
+
+.overlay {
+    position: fixed;
+    top:0;right:0;bottom:0;left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+
+    .errorNotice {
+        display: none;
+        position: absolute;
+        top:0;right:0;bottom:0;left:0;
+        width: 80%;
+        height: 200px;
+        margin: auto;
+    }
+
+    .container {
+        .row {
+            &.bottom {
+                position: absolute;
+                right:0;bottom:0;left:0;
+                width: 100%;
+                margin: 0;
+				z-index: 9;
+
+                .column {
+
+                    * {
+                        pointer-events: auto;
+                    }
+
+                    margin-bottom: 10px;
+
+                    @include min-screen($tabletBreakpoint) {
+                        margin-bottom: 0;
+                    }
+
+                    &:last-of-type {
+                        margin-bottom: 0;
+                    }
+
+                    p {
+                        display: block;
+                        font-weight: 900;
+                        font-size: 14px;
+                        line-height: 19px;
+                        -webkit-text-size-adjust: 100%;
+
+                        @include min-screen($desktopBreakpoint) {
+                            font-size: 16px;
+                            line-height: 20px;
+                        }
+
+                        @include min-screen($hdBreakpoint) {
+                            font-size: 24px;
+                            line-height: 30px;
+                        }
+
+                        a {
+                            position: relative;
+                            display: inline-block;
+                            cursor: pointer;
+                            color: #000;
+
+                            &:before {
+                                content: "";
+                                position: absolute;
+                                right:0;bottom:5px;left:0;
+                                background-color: $blue;
+                                height: 45%;
+                                width: 100%;
+                            }
+
+                            &:after {
+                                content: "";
+                                position: absolute;
+                                right:0;bottom:5px;left:0;
+                                background-color: $magenta;
+                                height: 45%;
+                                width: 0;
+                                @include transition(all 300ms);
+                            }
+
+                            &:hover:after {
+                                width: 100%;
+                            }
+
+                            @include min-screen($hdBreakpoint) {
+                                &:after, &:before {
+                                    bottom: 8px;
+                                }
+                            }
+
+                            span {
+                                position: relative;
+                                z-index: 2;
+                            }
+                        }
+
+                        a[href^="tel"] {
+                            color: #000;
+
+                            &:before, &:after {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.top {
+                position: absolute;
+                top:0;right:0;left:0;
+                width: 100%;
+                margin: 0;
+                z-index: 2;
+
+                @include min-screen($mobileBreakpoint) {
+                    top: 40px;
+                    left: 40px;
+                }
+
+                @include min-screen($hdBreakpoint) {
+                    top: 60px;
+                    left: 60px;
+                }
+
+                .column {
+                    * {
+                        pointer-events: auto;
+                    }
+
+                    .textBlock {
+                        padding: 20px;
+                        width: 100%;
+                        background-color: $blue;
+                        @include transition(transform 1000ms);
+
+
+                        @include min-screen($largeBreakpoint) {
+                            padding: 30px;
+                        }
+
+                        @include min-screen($hdBreakpoint) {
+                            padding: 40px;
+                        }
+
+                        h1 {
+                            font-weight: 900;
+                            font-size: 32px;
+                            line-height: 32px;
+                            margin-bottom: 10px;
+
+                            @include min-screen($largeBreakpoint) {
+                                font-size: 45px;
+                                line-height: 45px;
+                                margin-bottom: 15px;
+                            }
+
+                            @include min-screen($hdBreakpoint) {
+                                font-size: 60px;
+                                line-height: 60px;
+                                margin-bottom: 20px;
+                            }
+                        }
+
+                        span {
+                            font-weight: 700;
+                            font-size: 16px;
+                            line-height: 24px;
+
+                            @include min-screen($largeBreakpoint) {
+                                font-size: 24px;
+                                line-height: 32px;
+                            }
+
+                            @include min-screen($hdBreakpoint) {
+                                font-size: 30px;
+                                line-height: 45px;
+                            }
+                        }
+
+                        .close {
+                            cursor: pointer;
+                            position: absolute;
+                            top: -10px;
+                            left: -10px;
+                            width: 20px;
+                            height: 20px;
+                            @include transition(transform 300ms);
+
+                            &:hover {
+                                @include transform(rotate(90deg));
+                            }
+
+                            svg {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+
+                        &.hide {
+                            transform: translateY(-1000px);
+                        }
+                    }
+                }
+            }
+        }
+
+        .corner {
+            position: absolute;
+
+            &.topLeft {
+                top: 0;
+                left: 0;
+
+                .vertical, .horizontal {
+                    top: 0;
+                    left: 0;
+                }
+            }
+
+            &.topRight {
+                top: 0;
+                right: 0;
+
+                .vertical, .horizontal {
+                    top: 0;
+                    right: 0;
+                }
+            }
+
+            &.bottomRight {
+                bottom: 0;
+                right: 0;
+
+                .vertical, .horizontal {
+                    bottom: 0;
+                    right: 0;
+                }
+            }
+
+            &.bottomLeft {
+                bottom: 0;
+                left: 0;
+
+                .vertical, .horizontal {
+                    bottom: 0;
+                    left: 0;
+                }
+            }
+
+            .vertical {
+                position: absolute;
+                display: inline-block;
+                width: 1px;
+                height: 20px;
+                background-color: #000;
+            }
+
+            .horizontal {
+                position: absolute;
+                display: inline-block;
+                width: 20px;
+                height: 1px;
+                background-color: #000;
+            }
+        }
+
+        .menu {
+			pointer-events: auto;
+            position: absolute;
+            top:0;right:0;
+			background-color: $blue;
+			width: 0;
+			height: 0;
+			@include transition(width 300ms, height 300ms);
+			z-index: 3;
+
+            .menuButton {
+				cursor: pointer;
+                position: absolute;
+                top: -20px;
+                right: -20px;
+                width: 40px;
+                height: 40px;
+				@include rotate(0);
+				@include transition(transform 300ms);
+			
+				@include min-screen($tabletBreakpoint) {
+					top: -25px;
+					right: -25px;
+					width: 50px;
+					height: 50px;
+				}
+
+				@include min-screen($desktopBreakpoint) {
+					top: -50px;
+					right: -50px;
+					width: 100px;
+					height: 100px;
+				}
+
+                .line {
+                    display: inline-block;
+                    background-color: #000;
+                    position: absolute;
+                    top:0;right:0;bottom:0;left:0;
+                    margin: auto;
+
+                    &.one {
+                        width: 100%;
+                        height: 5px;
+			
+						@include min-screen($tabletBreakpoint) {
+							height: 8px;
+						}
+
+						@include min-screen($desktopBreakpoint) {
+							height: 10px;
+						}
+                    }
+
+                    &.two {
+                        width: 5px;
+                        height: 100%;
+			
+						@include min-screen($tabletBreakpoint) {
+							width: 8px;
+						}
+
+						@include min-screen($desktopBreakpoint) {
+							width: 10px;
+						}
+                    }
+                }
+
+				&:hover {
+					@include rotate(90);
+				}
+            }
+
+            .menuContent {
+				@include opacity(0);
+				@include transition(opacity 300ms);
+
+				ul {
+					list-style: none;
+					margin: none;
+					text-align: center;
+					position: absolute;
+					width: 100%;
+					@include opacity(0);
+					@include transition(opacity 300ms);
+					@include translate(0, -50%);
+					top: 30%;
+			
+					@include min-screen($tabletBreakpoint) {
+						top: 50%;
+					}
+
+					li {
+						display: inline-block;
+						margin: 0 15px;
+						width: 40px;
+			
+						@include min-screen($smallerBreakpoint) {
+							margin: 0 21px;
+							width: 60px;
+						}
+			
+						@include min-screen($tabletBreakpoint) {
+							margin: 0 31px;
+							width: 160px;
+						}
+
+						@include min-screen($desktopBreakpoint) {
+							margin: 0 41px;
+							width: 180px;
+						}
+						
+						a {
+							display: block;
+							position: relative;
+							padding-bottom: 25px;
+			
+							@include min-screen($tabletBreakpoint) {
+								padding-bottom: 45px;
+							}
+
+							img {
+								max-width: 128px;
+								width: 100%;
+							}
+
+							&:after {
+								background: #ffffff;
+								bottom: 0;
+								content: '';
+								display: block;
+								height: 0;
+								margin-top: 15px;
+								position: absolute;
+								width: 100%;
+								@include transition(height 300ms);
+							}
+
+							&.active {
+								&:after {
+									height: 10px;
+			
+									@include min-screen($tabletBreakpoint) {
+										height: 30px;
+									}
+								}
+							}
+
+							&:hover {
+								&:after {
+									height: 10px;
+			
+									@include min-screen($tabletBreakpoint) {
+										height: 30px;
+									}
+								}
+							}
+						}
+					}
+				}
+            }
+
+            &.open {
+				width: 100%;
+				height: 100%;
+				
+				.menuContent {
+					@include opacity(1);
+					
+					ul {
+						@include opacity(1);
+					}
+				}
+
+				.menuButton {
+					@include rotate(45);
+				}
+			}
+        }
+    }
+}
+
+.experimentHolder {
+
+    &.experimentOne {
+        position: fixed;
+        top:0;right:0;bottom:0;left:0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &.experimentTwo {
+        position: fixed;
+        top:0;right:0;bottom:0;left:0;
+        width: 100%;
+        height: 100%;
+
+        .playButton {
+            display: none;
+            position: absolute;
+            top:0;right:0;bottom:0;left:0;
+            width: 100%;
+            height: 52px;
+            margin: auto;
+            text-align: center;
+
+            .inner {
+                position: relative;
+                display: inline-block;
+                padding: 10px 15px;
+                cursor: pointer;
+                height: 100%;
+                text-align: left;
+                background-color: $blue;
+                @include transition(color 300ms);
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top:0;right:0;bottom:0;left:0;
+                    width: 0;
+                    height: 100%;
+                    background-color: $magenta;
+                    @include transition(width 300ms);
+                }
+
+                &:hover {
+                    color: #fff;
+
+                    &:after {
+                        width: 100%;
+                    }
+
+                    svg {
+                        fill: #fff;
+                    }
+                }
+
+                svg {
+                    position: relative;
+                    z-index: 2;
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 18px;
+                    height: 18px;
+                    fill: #000;
+                    margin-right: 3px;
+                    @include transition(fill 300ms);
+                }
+
+                span {
+                    position: relative;
+                    z-index: 2;
+                    display: inline-block;
+                    vertical-align: middle;
+                    font-weight: 900;
+                    font-size: 32px;
+                    line-height: 32px;
+                }
+            }
+        }
+
+		.headPhone {
+			background: $blue;
+			bottom: auto;
+			padding: 7px 8px 5px 8px;
+			position: absolute;
+			left: 30px;
+			right: auto;
+			top: 30px;
+			
+			@include min-screen($tabletBreakpoint) {
+				bottom: 130px;
+				right: 60px;
+				padding: 17px 18px 15px 18px;
+				top: auto;
+				left: auto;
+			}
+
+			@include min-screen($desktopBreakpoint) {
+				right: 60px;
+				bottom: 170px;
+				top: auto;
+				left: auto;
+			}
+			
+            @include min-screen($largeBreakpoint) {
+				right: 120px;
+				bottom: 230px;
+				top: auto;
+				left: auto;
+            }
+
+			svg {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			span {
+				display: inline-block;
+				margin: 0 0 0 13px;
+				
+				@include max-screen($tabletBreakpoint) {
+					font-size: 14px;
+					margin: 0 0 0 7px;
+				}
+			}
+		}
+    }
+
+    &.experimentThree {
+        position: fixed;
+        top:0;right:0;bottom:0;left:0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &.experimentFour {
+
+    }
+
+    &.experimentFive {
+
+    }
+}
+
